@@ -1,0 +1,546 @@
+Node number: 0
+Data: -556585491
+Prev:1
+Next:1
+
+	|
+	|
+	|
+	\/
+Node number: 1
+Data: 10
+Prev:0
+Next:0
+
+	|
+	|
+	|
+	\/
+Node number: 2
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 3
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 4
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 5
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 6
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 7
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 8
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 9
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+-------------------------------------------------------------
+Node number: 0
+Data: -556585491
+Prev:2
+Next:1
+
+	|
+	|
+	|
+	\/
+Node number: 1
+Data: 10
+Prev:0
+Next:2
+
+	|
+	|
+	|
+	\/
+Node number: 2
+Data: 20
+Prev:1
+Next:0
+
+	|
+	|
+	|
+	\/
+Node number: 3
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 4
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 5
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 6
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 7
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 8
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 9
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+-------------------------------------------------------------
+Node number: 0
+Data: -556585491
+Prev:3
+Next:1
+
+	|
+	|
+	|
+	\/
+Node number: 1
+Data: 10
+Prev:0
+Next:2
+
+	|
+	|
+	|
+	\/
+Node number: 2
+Data: 20
+Prev:1
+Next:3
+
+	|
+	|
+	|
+	\/
+Node number: 3
+Data: 30
+Prev:2
+Next:0
+
+	|
+	|
+	|
+	\/
+Node number: 4
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 5
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 6
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 7
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 8
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 9
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+-------------------------------------------------------------
+Node number: 0
+Data: -556585491
+Prev:4
+Next:1
+
+	|
+	|
+	|
+	\/
+Node number: 1
+Data: 10
+Prev:0
+Next:2
+
+	|
+	|
+	|
+	\/
+Node number: 2
+Data: 20
+Prev:1
+Next:3
+
+	|
+	|
+	|
+	\/
+Node number: 3
+Data: 30
+Prev:2
+Next:4
+
+	|
+	|
+	|
+	\/
+Node number: 4
+Data: 40
+Prev:3
+Next:0
+
+	|
+	|
+	|
+	\/
+Node number: 5
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 6
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 7
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 8
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 9
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+-------------------------------------------------------------
+Node number: 0
+Data: -556585491
+Prev:5
+Next:1
+
+	|
+	|
+	|
+	\/
+Node number: 1
+Data: 10
+Prev:0
+Next:2
+
+	|
+	|
+	|
+	\/
+Node number: 2
+Data: 20
+Prev:1
+Next:3
+
+	|
+	|
+	|
+	\/
+Node number: 3
+Data: 30
+Prev:2
+Next:4
+
+	|
+	|
+	|
+	\/
+Node number: 4
+Data: 40
+Prev:3
+Next:5
+
+	|
+	|
+	|
+	\/
+Node number: 5
+Data: 50
+Prev:4
+Next:0
+
+	|
+	|
+	|
+	\/
+Node number: 6
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 7
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 8
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 9
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+-------------------------------------------------------------
+Node number: 0
+Data: -556585491
+Prev:5
+Next:1
+
+	|
+	|
+	|
+	\/
+Node number: 1
+Data: 10
+Prev:0
+Next:2
+
+	|
+	|
+	|
+	\/
+Node number: 2
+Data: 20
+Prev:1
+Next:6
+
+	|
+	|
+	|
+	\/
+Node number: 3
+Data: 30
+Prev:6
+Next:4
+
+	|
+	|
+	|
+	\/
+Node number: 4
+Data: 40
+Prev:3
+Next:5
+
+	|
+	|
+	|
+	\/
+Node number: 5
+Data: 50
+Prev:4
+Next:0
+
+	|
+	|
+	|
+	\/
+Node number: 6
+Data: 35
+Prev:2
+Next:3
+
+	|
+	|
+	|
+	\/
+Node number: 7
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 8
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 9
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+-------------------------------------------------------------

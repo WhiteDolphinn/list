@@ -33,26 +33,13 @@ void list_print(FILE* log_file, struct list* list)
        fprintf(log_file, "Node number: %d\nData: %d\nPrev:%d\nNext:%d\n\n\t|\n\t|\n\t|\n\t\\/\n",
                i, list->head[i].data, list->head[i].prev, list->head[i].next);
     }
-    fprintf(log_file, "--------------------\n");
+    fprintf(log_file, "-------------------------------------------------------------\n");
 }
 
 void list_push(struct list* list, int num, data_t data)
 {
-    /*struct node node_prev = list->head[num];
-    struct node node_next = list->head[list->head[num].next];*/
-
-    int prev_num = list->head[num].next;
-    int next_num = list->head[list->head[num].next].prev;
-
-    /*int new_node_num = find_free_num(list);
-    struct node node_new = list->head[new_node_num];
-
-    node_prev.next = new_node_num;
-    node_next.prev = new_node_num;
-
-    node_new.data = data;
-    node_new.prev = prev_num;
-    node_new.next = next_num;*/
+    int prev_num = num;
+    int next_num = list->head[num].next;
 
     struct node node_new = {};
     node_new.prev = prev_num;
@@ -69,7 +56,9 @@ void list_push(struct list* list, int num, data_t data)
     list->head[new_node_code] = node_new;
 
     list->head[num].next = new_node_code;
-    list->head[list->head[num].next].prev = new_node_code;
+
+    list->head[next_num].prev = new_node_code;
+
     list_print(get_log_file(), list);
 }
 
