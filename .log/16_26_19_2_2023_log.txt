@@ -1,0 +1,182 @@
+Node number: 0
+Data: -556585491
+Prev:0
+Next:0
+
+	|
+	|
+	|
+	\/
+Node number: 1
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 2
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 3
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 4
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 5
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 6
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 7
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 8
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 9
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+--------------------
+Node number: 0
+Data: -556585491
+Prev:0
+Next:1
+
+	|
+	|
+	|
+	\/
+Node number: 1
+Data: 35
+Prev:1
+Next:0
+
+	|
+	|
+	|
+	\/
+Node number: 2
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 3
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 4
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 5
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 6
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 7
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 8
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+Node number: 9
+Data: -556585491
+Prev:-1
+Next:-1
+
+	|
+	|
+	|
+	\/
+--------------------
