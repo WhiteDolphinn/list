@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "log.h"
 
+static int find_free_num(struct list* list);
+static void node_free(struct node* node);
+
 void list_init(struct list* list)
 {
     list->size = 10;
@@ -13,9 +16,10 @@ void list_init(struct list* list)
 
     for(int i = 1; i < list->size; i++)
     {
-        list->head[i].data = POISON;
+        /*list->head[i].data = POISON;
         list->head[i].next = -1;
-        list->head[i].prev = -1;
+        list->head[i].prev = -1;*/
+        node_free(&(list->head[i]));
     }
 }
 
@@ -62,11 +66,37 @@ void list_push(struct list* list, int num, data_t data)
     list_print(get_log_file(), list);
 }
 
-int find_free_num(struct list* list)
+static int find_free_num(struct list* list)
 {
     for(int i = 0; i < list->size; i++)
         if(list->head[i].next == -1)
             return i;
 
     return -1;
+}
+
+data_t list_pop(struct list* list, int node_num)
+{
+    data_t data = list->head[node_num].data;
+
+    int prev_node_num = list->head[node_num].prev;
+    int next_node_num = list->head[node_num].next;
+
+    list->head[prev_node_num].next = next_node_num;
+    list->head[next_node_num].prev = prev_node_num;
+
+    /*list->head[node_num].data = POISON;
+    list->head[node_num].prev = -1;
+    list->head[node_num].next = -1;*/
+    node_free(&(list->head[node_num]));
+
+    list_print(get_log_file(), list);
+    return data;
+}
+
+static void node_free(struct node* node)
+{
+    node->data = POISON;
+    node->next = -1;
+    node->prev = -1;
 }

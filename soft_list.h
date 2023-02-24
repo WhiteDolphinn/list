@@ -21,6 +21,6 @@ void list_init(struct list* list);
 void list_delete(struct list* list);
 void list_print(FILE* log_file, struct list* list);
 void list_push(struct list* list, int num, data_t data);
-int find_free_num(struct list* list);
+data_t list_pop(struct list* list, int node_num);
 
 #endif
