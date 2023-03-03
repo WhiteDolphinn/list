@@ -2,7 +2,8 @@
 #define SOFT_LIST_H
 
 #include <stdio.h>
-#define POISON (int)0xDED32DED
+#include "queue/queue_soft.h"
+//#define POISON (int)0xDED32DED
 
 typedef int data_t;
 
@@ -15,6 +16,7 @@ struct node{
 struct list{
     struct node* head;
     int size;
+    struct queue* free_nodes;
 };
 
 void list_init(struct list* list);
