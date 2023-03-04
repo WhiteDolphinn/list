@@ -5,7 +5,7 @@
 #define QUEUE_SIZE 16 //обязательно степень двойки
 #define POISON (int)0xDED32DED
 #define MASK (QUEUE_SIZE - 1)
-//#define BLOCK_QUEUE_CHECK
+#define BLOCK_QUEUE_CHECK
 
 struct queue{
     int* data;

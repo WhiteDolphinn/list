@@ -14,12 +14,12 @@ void queue_init(struct queue* queue)
     for(int i = 0; i < QUEUE_SIZE; i++)
         queue->data[i] = POISON;
 
-    queue_check(get_log_file(), queue, __FILE__, __func__, __LINE__);
+    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
 }
 
 void queue_delete(struct queue* queue)
 {
-    queue_check(get_log_file(), queue, __FILE__, __func__, __LINE__);
+    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
 
     queue->head = POISON;
     queue->tail = POISON;
@@ -28,19 +28,19 @@ void queue_delete(struct queue* queue)
 
 void queue_push(struct queue* queue, int i)
 {
-    queue_check(get_log_file(), queue, __FILE__, __func__, __LINE__);
+    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
 
     if(queue->block_push == false)
     {
         queue->data[queue->tail++] = i;
         queue->tail &= MASK;
     }
-    queue_check(get_log_file(), queue, __FILE__, __func__, __LINE__);
+    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
 }
 
 int queue_pop(struct queue* queue)
 {
-    queue_check(get_log_file(), queue, __FILE__, __func__, __LINE__);
+    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
 
     int i = POISON;
     if(queue->block_pop == false)
@@ -49,7 +49,7 @@ int queue_pop(struct queue* queue)
         queue->data[queue->head - 1] = POISON;
         queue->head &= MASK;
     }
-    queue_check(get_log_file(), queue, __FILE__, __func__, __LINE__);
+    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
     return i;
 }
 
@@ -57,6 +57,12 @@ int queue_pop(struct queue* queue)
 
 void queue_check(FILE* file, struct queue* queue, const char* filename, const char* function_name, int line)
 {
+    if(file == nullptr)
+    {
+        printf("Error with opening of logfile\n");
+        return;
+    }
+
     fprintf(file, "========================\n");
     for(int i = 0; i < QUEUE_SIZE; i++)
     {

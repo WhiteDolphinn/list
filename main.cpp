@@ -12,6 +12,7 @@ int main()
     list_push(&list, 4, 50);
     list_push(&list, 2, 35);
     list_pop(&list, 2);
+    list_print(&list);
     list_delete(&list);
     return 0;
 }

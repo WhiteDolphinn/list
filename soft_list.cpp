@@ -1,6 +1,7 @@
 #include "soft_list.h"
 #include <stdlib.h>
 #include "queue/log.h"
+#include "dotter.h"
 
 static int find_free_num(struct list* list);
 static void node_free(struct list* list, int node_num);
@@ -35,15 +36,53 @@ void list_delete(struct list* list)
     free(list->free_nodes);
 }
 
-void list_print(FILE* log_file, struct list* list)
+void list_print_old(FILE* log_file, struct list* list)
 {
     for(int i = 0; i < list->size; i++)
     {
        // printf("%d / %d\t--->\t", list->head[i].data, i);
-       fprintf(log_file, "Node number: %d\nData: %d\nPrev:%d\nNext:%d\n\n\t|\n\t|\n\t|\n\t\\/\n",
+       fprintf(log_file, "Node number: %d\nData: %d\nPrev:%d\nNext:%d\n\n\t||\n\t||\n\t||\n\t\\/\n",
                i, list->head[i].data, list->head[i].prev, list->head[i].next);
     }
     fprintf(log_file, "-------------------------------------------------------------\n");
+}
+
+void list_print(struct list* list)
+{
+    struct node* current_node = list->head;
+    graph_start();
+
+    void* current_node_address = (void*)current_node;
+    void* next_node_address = (void*)(&(list->head[current_node->next]));
+    void* prev_node_address = (void*)(&(list->head[current_node->prev]));
+
+    do
+    {
+        current_node_address = (void*)current_node;
+        next_node_address = (void*)(&(list->head[current_node->next]));
+        prev_node_address = (void*)(&(list->head[current_node->prev]));
+
+        graph_add_dot(current_node_address, current_node->data,
+        next_node_address, prev_node_address);
+
+        current_node = &(list->head[current_node->next]);
+
+    }while(current_node != list->head);
+
+    do
+    {
+        current_node_address = (void*)current_node;
+        next_node_address = (void*)(&(list->head[current_node->next]));
+        prev_node_address = (void*)(&(list->head[current_node->prev]));
+
+        graph_add_arrow(current_node_address, next_node_address);
+        graph_add_arrow(current_node_address, prev_node_address);
+
+        current_node = &(list->head[current_node->next]);
+
+    }while(current_node != list->head);
+
+    graph_end();
 }
 
 void list_push(struct list* list, int num, data_t data)
@@ -60,8 +99,9 @@ void list_push(struct list* list, int num, data_t data)
 
     if(new_node_code == POISON)
     {
-        fprintf(get_log_file(), "%d isn't pushed. List is overflow.", data);
-        list_print(get_log_file(), list);
+        fprintf(get_log_file(".txt"), "%d isn't pushed. List is overflow.", data);
+        //list_print(get_log_file(".txt"), list);
+        list_print_old(get_log_file(".txt"), list);
         return;
     }
 
@@ -71,7 +111,7 @@ void list_push(struct list* list, int num, data_t data)
 
     list->head[next_num].prev = new_node_code;
 
-    list_print(get_log_file(), list);
+    list_print_old(get_log_file(".txt"), list);
 }
 
 static int find_free_num(struct list* list)
@@ -92,8 +132,8 @@ data_t list_pop(struct list* list, int node_num)
 
     if(prev_node_num == -1 || next_node_num == -1)
     {
-        fprintf(get_log_file(), "%d is uncorrect num of node.\n", node_num);
-        list_print(get_log_file(), list);
+        fprintf(get_log_file(".txt"), "%d is uncorrect num of node.\n", node_num);
+        list_print_old(get_log_file(".txt"), list);
         return POISON;
     }
 
@@ -102,7 +142,7 @@ data_t list_pop(struct list* list, int node_num)
 
     node_free(list, node_num);
 
-    list_print(get_log_file(), list);
+    list_print_old(get_log_file(".txt"), list);
     return data;
 }
 
