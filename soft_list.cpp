@@ -75,8 +75,8 @@ void list_print(struct list* list)
         next_node_address = (void*)(&(list->head[current_node->next]));
         prev_node_address = (void*)(&(list->head[current_node->prev]));
 
-        graph_add_arrow(current_node_address, next_node_address);
-        graph_add_arrow(current_node_address, prev_node_address);
+        graph_add_arrow(current_node_address, next_node_address, "#D0D0FF");
+        graph_add_arrow(current_node_address, prev_node_address, "#FFD0D0");
 
         current_node = &(list->head[current_node->next]);
 
