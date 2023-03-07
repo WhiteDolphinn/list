@@ -4,7 +4,6 @@
 #include <stdlib.h>
 
 static void close_log_file_txt();
-static void close_log_file_dot();
 
 FILE* get_log_file(const char* resolution)
 {
@@ -44,7 +43,7 @@ FILE* get_log_file(const char* resolution)
             if(PRINT_IN_CONSOLE == 0)
             {
                 log_file_dot = fopen(filename, "w");
-                atexit(close_log_file_dot);
+                //atexit(close_log_file_dot);
             }
             else
                 log_file_dot = stdout;
@@ -59,10 +58,4 @@ void close_log_file_txt()
 {
     FILE* ftxt = get_log_file(".txt");
     fclose(ftxt);
-}
-
-void close_log_file_dot()
-{
-    FILE* fdot = get_log_file(".dot");
-    fclose(fdot);
 }
