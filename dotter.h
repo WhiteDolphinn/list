@@ -33,7 +33,7 @@ void graph_end()
 
     close_log_file_dot();
 
-    sprintf(cmd, "sudo dot %s -Tpng -o 3.png\n", dot_file_name);
+    sprintf(cmd, "dot %s -Tpng -o 3.png\n", dot_file_name);
     printf("%s", cmd);
     system(cmd);
 

@@ -40,13 +40,8 @@ FILE* get_log_file(const char* resolution)
     {
         if(log_file_dot == nullptr)
         {
-            if(PRINT_IN_CONSOLE == 0)
-            {
                 log_file_dot = fopen(filename, "w");
                 //atexit(close_log_file_dot);
-            }
-            else
-                log_file_dot = stdout;
         }
         return log_file_dot;
     }

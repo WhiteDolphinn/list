@@ -3,6 +3,8 @@
 #include "queue_soft.h"
 #include "log.h"
 
+#define QUEUE_CHECK queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__)
+
 void queue_init(struct queue* queue)
 {
     queue->head = 0;
@@ -14,12 +16,12 @@ void queue_init(struct queue* queue)
     for(int i = 0; i < QUEUE_SIZE; i++)
         queue->data[i] = POISON;
 
-    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
+    QUEUE_CHECK;
 }
 
 void queue_delete(struct queue* queue)
 {
-    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
+    QUEUE_CHECK;
 
     queue->head = POISON;
     queue->tail = POISON;
@@ -28,19 +30,19 @@ void queue_delete(struct queue* queue)
 
 void queue_push(struct queue* queue, int i)
 {
-    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
+    QUEUE_CHECK;
 
     if(queue->block_push == false)
     {
         queue->data[queue->tail++] = i;
         queue->tail &= MASK;
     }
-    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
+    QUEUE_CHECK;
 }
 
 int queue_pop(struct queue* queue)
 {
-    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
+    QUEUE_CHECK;
 
     int i = POISON;
     if(queue->block_pop == false)
@@ -49,7 +51,7 @@ int queue_pop(struct queue* queue)
         queue->data[queue->head - 1] = POISON;
         queue->head &= MASK;
     }
-    queue_check(get_log_file(".txt"), queue, __FILE__, __func__, __LINE__);
+    QUEUE_CHECK;
     return i;
 }
 
@@ -92,7 +94,7 @@ void queue_check(FILE* file, struct queue* queue, const char* filename, const ch
 
 void queue_check(FILE* file, struct queue* queue, const char* filename, const char* function_name, int line)
 {
-   queue->block_push = ((queue->head & MASK) - ((queue->tail + 1) & MASK) == 0);
+    queue->block_push = ((queue->head & MASK) - ((queue->tail + 1) & MASK) == 0);
     queue->block_pop = (queue->tail == queue->head);
 
     if(queue->block_push == true)

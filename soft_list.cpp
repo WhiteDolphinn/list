@@ -52,28 +52,15 @@ void list_print(struct list* list)
     struct node* current_node = list->head;
     graph_start();
 
-    void* current_node_address = (void*)current_node;
-    void* next_node_address = (void*)(&(list->head[current_node->next]));
-    void* prev_node_address = (void*)(&(list->head[current_node->prev]));
-
     do
     {
-        current_node_address = (void*)current_node;
-        next_node_address = (void*)(&(list->head[current_node->next]));
-        prev_node_address = (void*)(&(list->head[current_node->prev]));
+        void* current_node_address = (void*)current_node;
+        void* next_node_address = (void*)(&(list->head[current_node->next]));
+        void* prev_node_address = (void*)(&(list->head[current_node->prev]));
 
         graph_add_dot(current_node_address, current_node->data,
         next_node_address, prev_node_address);
 
-        current_node = &(list->head[current_node->next]);
-
-    }while(current_node != list->head);
-
-    do
-    {
-        current_node_address = (void*)current_node;
-        next_node_address = (void*)(&(list->head[current_node->next]));
-        prev_node_address = (void*)(&(list->head[current_node->prev]));
 
         graph_add_arrow(current_node_address, next_node_address, "#D0D0FF");
         graph_add_arrow(current_node_address, prev_node_address, "#FFD0D0");
@@ -94,13 +81,11 @@ void list_push(struct list* list, int num, data_t data)
     node_new.prev = prev_num;
     node_new.next = next_num;
     node_new.data = data;
-    //int new_node_code = find_free_num(list);
     int new_node_code = queue_pop(list->free_nodes);
 
     if(new_node_code == POISON)
     {
         fprintf(get_log_file(".txt"), "%d isn't pushed. List is overflow.", data);
-        //list_print(get_log_file(".txt"), list);
         list_print_old(get_log_file(".txt"), list);
         return;
     }
@@ -153,5 +138,4 @@ static void node_free(struct list* list, int node_num)
 
     list->head[node_num].next = -1;
     queue_push(list->free_nodes, node_num);
-    //list->head[node_num].next = list->head[list->head[node_num].next].next;
 }
