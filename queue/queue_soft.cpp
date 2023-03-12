@@ -98,10 +98,10 @@ void queue_check(FILE* file, struct queue* queue, const char* filename, const ch
     queue->block_pop = (queue->tail == queue->head);
 
     if(queue->block_push == true)
-        fprintf(file, "Pushing is blocked!!!\n");
+        fprintf(file, "Pushing is blocked!!!\nFile:%s\nfunc:%s\nline:%d\n", filename, function_name, line);
 
     if(queue->block_pop == true)
-        fprintf(file, "Poping is blocked!!!\n");
+        fprintf(file, "Poping is blocked!!!\nFile:%s\nfunc:%s\nline:%d\n", filename, function_name, line);
 }
 
 #endif

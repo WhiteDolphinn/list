@@ -3,12 +3,13 @@
 
 int main()
 {
-    struct list list;
+    struct list list = {};
     list_init(&list);
     list_push(&list, 0, 10);
     list_push(&list, 1, 20);
     list_push(&list, 2, 30);
     list_push(&list, 3, 40);
+    //list.head[0].data = 5;
     list_push(&list, 4, 50);
     list_push(&list, 4, 55);
     list_push(&list, 4, 60);
@@ -26,6 +27,10 @@ int main()
     list_push(&list, 4, 120);
     list_push(&list, 4, 125);
     list_pop(&list, 2);
+
+    int test_node = search_node(&list, 70);
+    printf("%d\n", test_node);
+
     list_print(&list);
     list_delete(&list);
     return 0;

@@ -4,7 +4,8 @@
 
 void graph_start();
 void graph_add_dot(void* address, int data, void* next, void* prev);
-void gpaph_add_arrow(void* address1, void* address2, const char* color);
+void graph_add_head(void* address);
+void graph_add_arrow(void* address1, void* address2, const char* color);
 void graph_end();
 static char* get_dot_file_name();
 static void close_log_file_dot();
@@ -17,6 +18,11 @@ void graph_start()
 void graph_add_dot(void* address, int data, void* next, void* prev)
 {
     fprintf(get_log_file(".dot"), "node%p [shape = Mrecord, fillcolor = \"#FFD0DC\",style = filled, color = \"#000000\", label = \"{value = %d|\\naddress = %p|\\nnext = %p|\\nprev = %p}\"];\n", address, data, address, next, prev);
+}
+
+void graph_add_head(void* address)
+{
+    fprintf(get_log_file(".dot"), "head -> node%p [color = \"#D0D0FF\"];\n", address);
 }
 
 void graph_add_arrow(void* address1, void* address2, const char* color)

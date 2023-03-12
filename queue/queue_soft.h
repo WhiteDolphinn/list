@@ -2,8 +2,8 @@
 #define QUEUE_SOFT_H
 
 #include <stdio.h>
-#define QUEUE_SIZE 16 //обязательно степень двойки
-#define POISON (int)0xDED32DED
+#define QUEUE_SIZE 64 //обязательно степень двойки
+#define POISON 14888841
 #define MASK (QUEUE_SIZE - 1)
 #define BLOCK_QUEUE_CHECK
 
