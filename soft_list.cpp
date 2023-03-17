@@ -131,16 +131,17 @@ void list_push(struct list* list, int num, data_t data)
     }
 }
 
-/*static int find_free_num(struct list* list)
+void list_push_head(struct list* list, data_t data)
 {
-    for(int i = 0; i < list->size; i++)
-        if(list->head[i].next == -1)
-            return i;
+    list_push(list, 0, data);
+}
 
-    return -1;
-}*/
+void list_push_tail(struct list* list, data_t data)
+{
+    list_push(list, list->head[0].prev, data);
+}
 
-int search_node(struct list* list, data_t data)
+int list_index_by_data(struct list* list, data_t data)
 {
     struct node* current_node = list->head;
 
@@ -152,6 +153,25 @@ int search_node(struct list* list, data_t data)
         current_node = &(list->head[current_node->next]);
 
     }while(current_node != list->head);
+
+    return POISON;
+}
+
+int list_node_num_by_data(struct list* list, data_t data)
+{
+    if(list->head[0].data == data)
+        return 0;
+
+    struct node* current_node = &(list->head[list->head[0].next]);
+
+    for(int i = 1; current_node != list->head; i++)
+    {
+        if(data == current_node->data)
+            return i;
+
+        current_node = &(list->head[current_node->next]);
+    }
+
     return POISON;
 }
 
@@ -184,6 +204,21 @@ data_t list_pop(struct list* list, int node_num)
         return data;
     }
     return POISON;
+}
+
+data_t list_data_by_index(struct list* list, unsigned int index)
+{
+    return list->head[index].data;
+}
+
+data_t list_data_by_node_num(struct list* list, unsigned int node_num)
+{
+    struct node* current_node = list->head;
+    for(unsigned int i = 0; i < node_num; i++)
+    {
+        current_node = &(list->head[current_node->next]);
+    }
+    return current_node->data;
 }
 
 void list_resize(struct list* list)
