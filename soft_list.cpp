@@ -77,25 +77,49 @@ void list_print(struct list* list)
     struct node* current_node = list->head;
     graph_start();
 
+    char* num_of_arrows = (char*)calloc(list->size, sizeof(char));   //если не КАЛЛочить, то варнинг
     do
     {
         void* current_node_address = (void*)current_node;
         void* next_node_address = (void*)(&(list->head[current_node->next]));
         void* prev_node_address = (void*)(&(list->head[current_node->prev]));
 
-        graph_add_dot(current_node, current_node->data,
-        next_node_address, prev_node_address);
-
-
         graph_add_arrow(current_node_address, next_node_address, "#D0D0FF");
+        num_of_arrows[current_node->next]++;
         graph_add_arrow(current_node_address, prev_node_address, "#FFD0D0");
+        num_of_arrows[current_node->prev]++;
 
         current_node = &(list->head[current_node->next]);
 
     }while(current_node != list->head);
 
+    int current_node_index = 0;
+    do{
+        void* next_node_address = (void*)(&(list->head[current_node->next]));
+        void* prev_node_address = (void*)(&(list->head[current_node->prev]));
+
+        if(num_of_arrows[current_node_index] == 2)
+        {
+            graph_add_dot(current_node, current_node->data,
+            next_node_address, prev_node_address, "#FFD0DC");
+        }
+        else
+        {
+            graph_add_dot(current_node, current_node->data,
+            next_node_address, prev_node_address, "#FF0000");
+        }
+
+        current_node = &(list->head[current_node->next]);
+        current_node_index = current_node->next;
+    }while(current_node != list->head);
+   /* do{
+        printf("%d\n", num_of_arrows[current_node->next]);
+        current_node = &(list->head[current_node->next]);
+    }while(current_node != list->head);*/
+
     graph_add_head(current_node);
     graph_end();
+    free(num_of_arrows);
 }
 
 void list_push(struct list* list, int num, data_t data)

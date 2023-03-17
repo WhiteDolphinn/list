@@ -27,14 +27,12 @@ int main()
     list_push(&list, 4, 125);
     list_pop(&list, 2);
 
-    //int test_node = search_node(&list, 70);
-    //printf("%d\n", test_node);
-
     printf("func:list_node_num_by_data\tdata:100\tfunc:%d\n", list_node_num_by_data(&list, 100));
     printf("func:list_index_by_data\t\tdata:100\tfunc:%d\n", list_index_by_data(&list, 100));
     printf("func:data_by_index\t\tindex:14\tfunc:%d\n", list_data_by_index(&list, 14));
     printf("func:list_data_by_node_num\tnode:9\tfunc:%d\n", list_data_by_node_num(&list, 9));
 
+   // list.head[6].next = 6;
     list_print(&list);
     list_delete(&list);
     return 0;

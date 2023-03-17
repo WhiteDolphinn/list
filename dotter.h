@@ -3,7 +3,7 @@
 #include <time.h>
 
 void graph_start();
-void graph_add_dot(void* address, int data, void* next, void* prev);
+void graph_add_dot(void* address, int data, void* next, void* prev, const char* fillcolor);
 void graph_add_head(void* address);
 void graph_add_arrow(void* address1, void* address2, const char* color);
 void graph_end();
@@ -13,11 +13,12 @@ static void close_log_file_dot();
 void graph_start()
 {
     fprintf(get_log_file(".dot"), "digraph {\n\n");
+    fprintf(get_log_file(".dot"), "rankdir=\"LR\";");
 }
 
-void graph_add_dot(void* address, int data, void* next, void* prev)
+void graph_add_dot(void* address, int data, void* next, void* prev, const char* fillcolor)
 {
-    fprintf(get_log_file(".dot"), "node%p [shape = Mrecord, fillcolor = \"#FFD0DC\",style = filled, color = \"#000000\", label = \"{value = %d|\\naddress = %p|\\nnext = %p|\\nprev = %p}\"];\n", address, data, address, next, prev);
+    fprintf(get_log_file(".dot"), "node%p [shape = Mrecord, fillcolor = \"%s\",style = filled, color = \"#000000\", label = \"value = %d |\\naddress = %p |\\nnext = %p |\\nprev = %p\"];\n", address, fillcolor, data, address, next, prev);
 }
 
 void graph_add_head(void* address)
