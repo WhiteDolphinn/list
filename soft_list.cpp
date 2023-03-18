@@ -24,7 +24,7 @@ void list_init(struct list* list)
         return;
     }
 
-    queue_init(list->free_nodes);
+    queue_init(list->free_nodes, list->size);
 
     list->head[0].data = POISON;
     list->head[0].next = 0;
@@ -250,6 +250,8 @@ void list_resize(struct list* list)
     unsigned int old_size = list->size;
     list->size *= 2;
     struct node* buff_ptr = (struct node*)realloc(list->head, list->size * sizeof(struct node));
+
+    queue_resize(list->free_nodes, list->size);
 
     if(buff_ptr != nullptr)
         list->head = buff_ptr;
