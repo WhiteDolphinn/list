@@ -66,46 +66,59 @@ void list_print(struct list* list)
 {
     if(list->is_deleted)    return;
 
-    struct node* current_node = list->head;
     graph_start();
 
     char* num_of_arrows = (char*)calloc(list->size, sizeof(char));   //если не КАЛЛочить, то варнинг
-    do
+
+    unsigned int current_node_index = 0;
+
+    for( ; current_node_index < list->size; current_node_index++)
     {
-        void* current_node_address = (void*)current_node;
-        void* next_node_address = (void*)(&(list->head[current_node->next]));
-        void* prev_node_address = (void*)(&(list->head[current_node->prev]));
+        void* next_node_address = (void*)(&(list->head[list->head[current_node_index].next]));
+        void* prev_node_address = (void*)(&(list->head[list->head[current_node_index].prev]));
 
-        graph_add_arrow(current_node_address, next_node_address, "#D0D0FF");
-        num_of_arrows[current_node->next]++;
-        graph_add_arrow(current_node_address, prev_node_address, "#FFD0D0");
-        num_of_arrows[current_node->prev]++;
+        graph_add_arrow((void*)(&(list->head[current_node_index])), next_node_address, "#D0D0FF");
+        graph_add_arrow((void*)(&(list->head[current_node_index])), prev_node_address, "#FFD0D0");
 
-        current_node = &(list->head[current_node->next]);
+        if(list->head[current_node_index].next != -1)
+            num_of_arrows[list->head[current_node_index].next]++;
 
-    }while(current_node != list->head);
+        if(list->head[current_node_index].next != -1)
+            num_of_arrows[list->head[current_node_index].prev]++;
+    }
 
-    int current_node_index = 0;
-    do{
-        void* next_node_address = (void*)(&(list->head[current_node->next]));
-        void* prev_node_address = (void*)(&(list->head[current_node->prev]));
+    current_node_index = 0;
 
-        if(num_of_arrows[current_node_index] == 2)
+    graph_add_dot((void*)(&(list->head[-1])), POISON, nullptr, nullptr, "#0000FF");
+
+    for( ; current_node_index < list->size; current_node_index++)
+    {
+        void* next_node_address = (void*)(&(list->head[list->head[current_node_index].next]));
+        void* prev_node_address = (void*)(&(list->head[list->head[current_node_index].prev]));
+
+        switch(num_of_arrows[current_node_index])
         {
-            graph_add_dot(current_node, current_node->data,
-            next_node_address, prev_node_address, "#FFD0DC");
+            case 2:
+            {
+                graph_add_dot((void*)(&(list->head[current_node_index])), list->head[current_node_index].data,
+                next_node_address, prev_node_address, "#FFD0DC");
+                break;
+            }
+            case 0:
+            {
+                graph_add_dot((void*)(&(list->head[current_node_index])), list->head[current_node_index].data,
+                next_node_address, prev_node_address, "#00FF00");
+                break;
+            }
+            default:
+            {
+                graph_add_dot((void*)(&(list->head[current_node_index])), list->head[current_node_index].data,
+                next_node_address, prev_node_address, "#FF0000");
+            }
         }
-        else
-        {
-            graph_add_dot(current_node, current_node->data,
-            next_node_address, prev_node_address, "#FF0000");
-        }
+    }
 
-        current_node = &(list->head[current_node->next]);
-        current_node_index = current_node->next;
-    }while(current_node != list->head);
-
-    graph_add_head(current_node);
+    graph_add_head(list->head);
     graph_end();
     free(num_of_arrows);
 }
@@ -349,7 +362,10 @@ static void linearization(struct list* list, unsigned int num_of_nodes)
     queue_clean(list->free_nodes);
     fprintf(get_log_file(".txt"), "queue_clean have worked\n num_of_nodes = %u", num_of_nodes);
     for(unsigned int i = num_of_nodes; i < (list->size/2); i++)
+    {
         node_free(list, (int)i);
+        //queue_push(list->free_nodes, (int)i);
+    }
 
     list_resize(list, -(int)(list->size/2));
     free(buf_data);
