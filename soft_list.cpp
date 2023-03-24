@@ -349,7 +349,7 @@ static void linearization(struct list* list, unsigned int num_of_nodes)
     queue_clean(list->free_nodes);
     fprintf(get_log_file(".txt"), "queue_clean have worked\n num_of_nodes = %u", num_of_nodes);
     for(unsigned int i = num_of_nodes; i < (list->size/2); i++)
-        queue_push(list->free_nodes, (int)i);
+        node_free(list, (int)i);
 
     list_resize(list, -(int)(list->size/2));
     free(buf_data);

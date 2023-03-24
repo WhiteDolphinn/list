@@ -24,7 +24,6 @@ int main()
     list_push(&list, 4, 110);
     list_push(&list, 4, 115);
     list_push(&list, 4, 120);
-    //list_push_head(&list, 125);
     list_push_tail(&list, 125);
     list_pop(&list, 2);
     list_pop(&list, 3);
@@ -42,22 +41,6 @@ int main()
     list_pop(&list, 15);
     list_pop(&list, 16);
     list_pop(&list, 17);
-    /*list_push(&list, 0, 10);
-    list_push_tail(&list, 20);
-    list_push_tail(&list, 30);
-    list_push_tail(&list, 40);
-    list_push_tail(&list, 50);
-    list_push_tail(&list, 60);
-    list_push_tail(&list, 70);
-    list_push_tail(&list, 80);
-    list_push_tail(&list, 90);
-    list_push_tail(&list, 100);
-    list_push_tail(&list, 110);
-    list_push_tail(&list, 120);
-    list_push_tail(&list, 130);
-    list_push_tail(&list, 140);
-    list_push_tail(&list, 150);*/
-
 
     //printf("func:list_node_num_by_data\tdata:100\tfunc:%d\n", list_node_num_by_data(&list, 100));
     //printf("func:list_index_by_data\t\tdata:100\tfunc:%d\n", list_index_by_data(&list, 100));
