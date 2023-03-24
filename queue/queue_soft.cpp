@@ -10,7 +10,6 @@ void queue_init(struct queue* queue, unsigned int queue_size)
     queue->head = 0;
     queue->tail = 0;
     queue->size = queue_size;
-    //queue->mask = queue->size - 1;
     queue->block_push = false;
     queue->block_pop = true;
     queue->data = (int*)calloc(queue->size, sizeof(int));
@@ -18,15 +17,14 @@ void queue_init(struct queue* queue, unsigned int queue_size)
     for(unsigned int i = 0; i < queue->size; i++)
         queue->data[i] = POISON;
 
-    for(unsigned int i = 1; ; i *= 2)
+   /* for(unsigned int i = 1; ; i *= 2)
     {
         if(queue->size <= i)
         {
             queue->mask = i - 1;
             break;
-        }
-    }
-    printf("queue->mask = %u\n", queue->mask);
+        }//,сделать через побитовые сдвиги
+    }*/
     QUEUE_CHECK;
 }
 
@@ -47,7 +45,12 @@ void queue_push(struct queue* queue, int i)
     if(queue->block_push == false)
     {
         queue->data[queue->tail++] = i;
-        queue->tail &= queue->mask;
+        /*int len_from_mask = queue->tail + queue->mask - queue->size;
+
+        len_from_mask &= queue->mask;*/
+
+        if(queue->tail == queue->size)
+            queue->tail = 0;
     }
     QUEUE_CHECK;
 }
@@ -59,9 +62,12 @@ int queue_pop(struct queue* queue)
     int i = POISON;
     if(queue->block_pop == false)
     {
-        i = queue->data[queue->head++];
-        queue->data[queue->head - 1] = POISON;
-        queue->head &= queue->mask;
+        i = queue->data[queue->head];
+        queue->data[queue->head] = POISON;
+        queue->head++;
+        //queue->head &= queue->mask;
+        if(queue->head == queue->size)
+            queue->head = 0;
     }
     QUEUE_CHECK;
     return i;
@@ -89,7 +95,7 @@ void queue_check(FILE* file, struct queue* queue, const char* filename, const ch
     fprintf(file, "\tFunction: %s\n", function_name);
     fprintf(file, "\tLine: %d\n", line);
 
-    queue->block_push = ((queue->head & queue->mask) - ((queue->tail + 1) & queue->mask) == 0);
+    queue->block_push = ((queue->head % queue->size) - ((queue->tail + 1) % queue->size) == 0);
     queue->block_pop = (queue->tail == queue->head);
 
     if(queue->block_push == true)
@@ -98,6 +104,8 @@ void queue_check(FILE* file, struct queue* queue, const char* filename, const ch
     if(queue->block_pop == true)
         fprintf(file, "Poping is blocked!!!\n");
 
+    fprintf(file, "queue->head = %u\n", queue->head);
+    fprintf(file, "queue->tail = %u\n", queue->tail);
     fprintf(file, "========================\n\n");
 
 }
@@ -106,7 +114,7 @@ void queue_check(FILE* file, struct queue* queue, const char* filename, const ch
 
 void queue_check(FILE* file, struct queue* queue, const char* filename, const char* function_name, int line)
 {
-    queue->block_push = ((queue->head & queue->mask) - ((queue->tail + 1) & queue->mask) == 0);
+    queue->block_push = ((queue->head % queue->size) - ((queue->tail + 1) % queue->size) == 0);
     queue->block_pop = (queue->tail == queue->head);
 
     if(queue->block_push == true)
@@ -118,10 +126,63 @@ void queue_check(FILE* file, struct queue* queue, const char* filename, const ch
 
 #endif
 
-void queue_resize(struct queue* queue, unsigned int new_queue_size)
+bool queue_resize(struct queue* queue, unsigned int new_queue_size)//если меньше 5,
 {
-    int* buf_data = (int*)realloc(queue->data, new_queue_size * sizeof(int));
+    if(new_queue_size > queue->size)
+    {
+        int* buf_data = (int*)realloc(queue->data, new_queue_size * sizeof(int));
+        if(buf_data == nullptr)
+            return false;
 
-    if(buf_data != nullptr)
         queue->data = buf_data;
+
+        for(unsigned int i = queue->size; i < new_queue_size; i++)
+            queue->data[i] = POISON;
+
+        queue->size = new_queue_size;
+
+        if(queue->head >= queue->size)
+            queue->head = 0;
+
+        if(queue->tail >= queue->size)
+            queue->tail = 0;
+
+        return true;
+    }
+    else
+    {
+        int* buf_data = (int*)calloc(new_queue_size + 2, sizeof(int));
+        unsigned int num_of_elems = 0;
+        for(; queue->block_pop == false; num_of_elems++)
+            buf_data[num_of_elems] = queue_pop(queue);
+
+        queue->head = 0;
+        queue->tail = 0;
+
+        int* buf_ptr = (int*)realloc(queue->data, new_queue_size * sizeof(int));
+        if(buf_ptr == nullptr)
+            return false;
+
+        queue->data = buf_ptr;
+
+        for(unsigned int i = 0; i < num_of_elems; i++)
+            queue->data[i] = buf_data[i];
+
+        queue->size = new_queue_size;
+        queue->tail = num_of_elems;
+        queue->head = 0;
+
+        free(buf_data);
+        return true;
+    }
+    return true;
+}
+
+void queue_clean(struct queue* queue)
+{
+    for(unsigned int i = 0; i < queue->size; i++)
+        queue->data[i] = POISON;
+
+    queue->head = 0;
+    queue->tail = 0;
 }

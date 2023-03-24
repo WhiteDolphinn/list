@@ -5,13 +5,13 @@
 
 //#define BLOCK_LIST_CHECK
 
-//static int find_free_num(struct list* list);
 static void node_free(struct list* list, int node_num);
 static void list_check(struct list* list);
+static void linearization(struct list* list, unsigned int num_of_nodes);
 
-void list_init(struct list* list)
+void list_init(struct list* list, unsigned int list_size)
 {
-    list->size = 10;
+    list->size = list_size;
     list->head = (struct node*)calloc(list->size, sizeof(struct node));
     list->free_nodes = (struct queue*)calloc(1, sizeof(struct queue));
     list->is_correct = true;
@@ -31,14 +31,8 @@ void list_init(struct list* list)
     list->head[0].prev = 0;
 
     for(int i = 1; i < (int)list->size; i++)
-    {
-        //list->head[i].next = (i + 1) % (list->size);
-        /*list->head[i].next = -1;
-        list->head[i].prev = -1;
-        list->head[i].data = POISON;
-        queue_push(list->free_nodes, i);*/
         node_free(list, i);
-    }
+
     list_check(list);
 }
 
@@ -61,11 +55,9 @@ void list_print_old(FILE* log_file, struct list* list)
     if(list->is_deleted == false)
     {
         for(int i = 0; i < (int)list->size; i++)
-        {
-        // printf("%d / %d\t--->\t", list->head[i].data, i);
         fprintf(log_file, "Node number: %d\nData: %d\nPrev:%d\nNext:%d\n\n\t||\n\t||\n\t||\n\t\\/\n",
                 i, list->head[i].data, list->head[i].prev, list->head[i].next);
-        }
+
         fprintf(log_file, "-------------------------------------------------------------\n");
     }
 }
@@ -112,10 +104,6 @@ void list_print(struct list* list)
         current_node = &(list->head[current_node->next]);
         current_node_index = current_node->next;
     }while(current_node != list->head);
-   /* do{
-        printf("%d\n", num_of_arrows[current_node->next]);
-        current_node = &(list->head[current_node->next]);
-    }while(current_node != list->head);*/
 
     graph_add_head(current_node);
     graph_end();
@@ -134,14 +122,21 @@ void list_push(struct list* list, int num, data_t data)
         node_new.prev = prev_num;
         node_new.next = next_num;
         node_new.data = data;
+
         int new_node_code = queue_pop(list->free_nodes);
 
         if(new_node_code == POISON)
         {
-            //fprintf(get_log_file(".txt"), "%d isn't pushed. List is overflow.", data);
-            list_resize(list);
+            list_resize(list, (int)list->size);
             list_print_old(get_log_file(".txt"), list);
-            return;
+
+            new_node_code = queue_pop(list->free_nodes);
+
+            if(new_node_code == POISON)
+            {
+                fprintf(get_log_file(".txt"), "Error in resize queue\n");
+                return;
+            }
         }
 
         list->head[new_node_code] = node_new;
@@ -245,25 +240,33 @@ data_t list_data_by_node_num(struct list* list, unsigned int node_num)
     return current_node->data;
 }
 
-void list_resize(struct list* list)
+bool list_resize(struct list* list, int extra_mem)
 {
-    unsigned int old_size = list->size;
-    list->size *= 2;
-    struct node* buff_ptr = (struct node*)realloc(list->head, list->size * sizeof(struct node));
+    int old_size = (int)list->size;
+    int new_size = (int)list->size + extra_mem;
 
-    queue_resize(list->free_nodes, list->size);
-
-    if(buff_ptr != nullptr)
-        list->head = buff_ptr;
-
-    for(int i = (int)old_size; i < (int)list->size; i++)
+    if(new_size < 0)
     {
-       /* list->head[i].data = POISON;
-        list->head[i].next = -1;
-        list->head[i].prev = -1;
-        queue_push(list->free_nodes, i);*/
-        node_free(list, i);
+        fprintf(get_log_file(".txt"), "Error with list resize. new_size < 0\n");
+        return false;
     }
+
+    struct node* buff_ptr = (struct node*)realloc(list->head, (unsigned)new_size * sizeof(struct node));
+
+    if(buff_ptr == nullptr)
+        return false;
+
+    list->head = buff_ptr;
+
+    list->size = (unsigned int)new_size;
+
+    if(!queue_resize(list->free_nodes, list->size))
+        return false;
+
+    for(int i = old_size; i < (int)list->size; i++)
+        node_free(list, i);
+
+    return true;
 }
 
 static void node_free(struct list* list, int node_num)
@@ -287,7 +290,7 @@ static void list_check(struct list* list)
             list->is_correct = false;
         }
 
-
+        unsigned int num_of_nodes = 0;
         node* current_node = list->head;
         do
         {
@@ -298,7 +301,11 @@ static void list_check(struct list* list)
             }
 
             current_node = &(list->head[current_node->next]);
+            num_of_nodes++;
         }while(current_node != list->head);
+
+        if(num_of_nodes * 3 < list->size && list->size > 5)
+            linearization(list, num_of_nodes);
 
         if(list->is_correct == false)
         {
@@ -315,3 +322,35 @@ static void list_check(struct list* list)
 }
 
 #endif
+
+static void linearization(struct list* list, unsigned int num_of_nodes)
+{
+    data_t* buf_data = (data_t*)calloc(num_of_nodes, sizeof(data_t));
+
+    node* current_node = list->head;
+    for(unsigned int i = 0; i < num_of_nodes; i++)
+    {
+        list_print_old(get_log_file(".txt"), list);
+        buf_data[i] = current_node->data;
+        current_node = &(list->head[current_node->next]);
+        fprintf(get_log_file(".txt"), "buf_data[%u] = %d\n", i, buf_data[i]);
+    }
+
+
+    for(unsigned int i = 0; i < num_of_nodes; i++)
+    {
+        list->head[i].data = buf_data[i];
+        list->head[i].prev = (int)i - 1;
+        list->head[i].next = (int)i + 1;
+    }
+    list->head[0].prev = (int)num_of_nodes - 1;
+    list->head[num_of_nodes-1].next = 0;
+
+    queue_clean(list->free_nodes);
+    fprintf(get_log_file(".txt"), "queue_clean have worked\n num_of_nodes = %u", num_of_nodes);
+    for(unsigned int i = num_of_nodes; i < (list->size/2); i++)
+        queue_push(list->free_nodes, (int)i);
+
+    list_resize(list, -(int)(list->size/2));
+    free(buf_data);
+}

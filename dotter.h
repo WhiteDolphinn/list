@@ -23,6 +23,7 @@ void graph_add_dot(void* address, int data, void* next, void* prev, const char* 
 
 void graph_add_head(void* address)
 {
+    fprintf(get_log_file(".dot"), "head [style = filled, fillcolor = \"#D0FFD0\"]");
     fprintf(get_log_file(".dot"), "head -> node%p [color = \"#D0D0FF\"];\n", address);
 }
 
